@@ -24,7 +24,7 @@ const Campus = db.define("campus", {
 
   imageUrl: {
     type: Sequelize.STRING,
-    defaultValue: "image.png",
+    defaultValue: "https://picsum.photos/200",
   }
 });
 
