@@ -29,14 +29,16 @@ const ash = require('express-async-handler');
 // It is the same as using "try-catch" and calling next(error)
 router.get('/', ash(async(req, res) => {
   let students = await Student.findAll({include: [Campus]});
-  res.status(200).json(students);  // Status code 200 OK - request succeeded
+  if (!students) res.status(500).json({Error: "No students were found!"});
+  else res.status(200).json(students);  // Status code 200 OK - request succeeded
 }));
 
 /* GET STUDENT BY ID */
 router.get('/:id', ash(async(req, res) => {
   // Find student by Primary Key
   let student = await Student.findByPk(req.params.id, {include: [Campus]});  // Get the student and its associated campus
-  res.status(200).json(student);  // Status code 200 OK - request succeeded
+  if (!student) res.status(500).json({Error: `No student with ID: ${req.params.id} was found!`});
+  else res.status(200).json(student);  // Status code 200 OK - request succeeded
 }));
 
 /* ADD NEW STUDENT */
